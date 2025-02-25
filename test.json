@@ -1,27 +1,33 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "CloudFormation template to create a VPC",
+    "Description": "CloudFormation template to deploy a single EC2 instance in the default VPC",
     "Resources": {
-        "MyVPC": {
-            "Type": "AWS::EC2::VPC",
+        "EC2Instance": {
+            "Type": "AWS::EC2::Instance",
             "Properties": {
-                "CidrBlock": "10.0.0.0/16",
-                "EnableDnsSupport": true,
-                "EnableDnsHostnames": true,
+                "InstanceType": "t2.micro",
+                "KeyName": "testjuhi",
+                "ImageId": "ami-00bb6a80f01f03502",
                 "Tags": [
                     {
                         "Key": "Name",
-                        "Value": "TestVPC"
+                        "Value": "TestEC2Instance"
                     }
                 ]
             }
         }
     },
     "Outputs": {
-        "VPCId": {
-            "Description": "The ID of the created VPC",
+        "InstanceId": {
+            "Description": "The Instance ID of the created EC2 instance",
             "Value": {
-                "Ref": "MyVPC"
+                "Ref": "EC2Instance"
+            }
+        },
+        "InstancePublicIP": {
+            "Description": "Public IP address of the EC2 instance",
+            "Value": {
+                "Fn::GetAtt": ["EC2Instance", "PublicIp"]
             }
         }
     }
